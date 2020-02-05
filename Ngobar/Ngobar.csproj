@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ngobar.Data\Ngobar.Data.csproj" />
+    <ProjectReference Include="..\Ngobar.Service\Ngobar.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using Ngobar.Data;
 using Ngobar.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ngobar.Service
@@ -38,7 +39,12 @@ namespace Ngobar.Service
 
         public Forum GetById(int id)
         {
-            throw new NotImplementedException();
+            var forum = _context.Forums.Where(f => f.Id == id)
+                .Include(f => f.Posts).ThenInclude(p => p.User)
+                .Include(f => f.Posts).ThenInclude(p => p.balasan).ThenInclude(r => r.User)
+                .FirstOrDefault();
+
+            return forum;
         }
 
         public Task UpdateDeskripsi(int forumId, string newDeskripsi)

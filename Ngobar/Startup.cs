@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Ngobar.Data;
 using Ngobar.Services;
 using Ngobar.Data.Models;
+using Ngobar.Service;
 
 namespace Ngobar
 {
@@ -31,6 +32,7 @@ namespace Ngobar
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IForum, ForumService>();
 
             services.AddMvc();
         }
