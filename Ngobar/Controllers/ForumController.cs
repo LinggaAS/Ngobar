@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Ngobar.Data;
+using Ngobar.Data.Models;
 using Ngobar.Models.Forum;
+using Ngobar.Models.Post;
 
 namespace Ngobar.Controllers
 {
@@ -35,9 +38,43 @@ namespace Ngobar.Controllers
         public IActionResult Topic(int id)
         {
             var forum = _forumService.GetById(id);
-            var posts = _postService.GetFilteredPosts(id);
+            var posts = forum.Posts;
 
-            var postListings = ...
+            var postListings = posts.Select(post => new PostListingModel
+            {
+                Id = post.Id,
+                IdPembuat = post.User.Id,
+                RatingPembuat = post.User.Rating,
+                Judul = post.Judul,
+                DatePosted = post.Dibuat.ToString(),
+                JumlahBalasan = post.balasan.Count(),
+                Forum = BuildForumListing(post)
+            });
+
+            var model = new ForumTopicModel
+            {
+                Posts = postListings,
+                Forum = BuildForumListing(forum)
+            };
+
+            return View(model);
+        }
+
+        private ForumListingModel BuildForumListing(Post post)
+        {
+            var forum = post.Forum;
+            return BuildForumListing(forum);
+        }
+
+        private ForumListingModel BuildForumListing(Forum forum)
+        {
+            return new ForumListingModel
+            {
+                Id = forum.Id,
+                Nama = forum.Judul,
+                Deskripsi = forum.Deskripsi,
+                ImageUrl = forum.ImageUrl
+            };
         }
     }
 }

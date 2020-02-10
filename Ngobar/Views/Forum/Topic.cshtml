@@ -1,0 +1,43 @@
+﻿@model Ngobar.Models.Forum.ForumTopicModel
+
+<h1>Selamat Datang di Forum @Model.Forum.Nama!</h1>
+
+@if (Model.Posts.Any())
+{
+    <table class="table table-bordered table-hover">
+        <tbody>
+            @foreach (var post in Model.Posts)
+            {
+            <tr>
+                <td>
+                    <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">
+                        @post.Judul
+                    </a>
+</td>
+                <td>
+                    @post.NamaPembuat
+                </td>
+                <td>
+                    @post.DatePosted
+                </td>
+                <td>
+                    @post.JumlahBalasan
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+else {
+    <div class="noPosts">
+        <h3>
+            Sepertinya belum ada post di Forum @Model.Forum.Nama. <br />
+            Kenapa tidak
+            <a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Forum.Id">
+                <span>buat</span>
+            </a> 
+            saja ?
+        </h3>
+    </div>
+}
