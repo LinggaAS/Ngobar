@@ -1,4 +1,5 @@
-﻿using Ngobar.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Ngobar.Data;
 using Ngobar.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,11 @@ namespace Ngobar.Service
 
         public Post GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Posts.Where(post => post.Id == id)
+                .Include(post => post.User)
+                .Include(post => post.balasan).ThenInclude(balas => balas.User)
+                .Include(post => post.Forum)
+                .First();
         }
 
         public IEnumerable<Post> GetFIlteredPosts(string searchQuery)

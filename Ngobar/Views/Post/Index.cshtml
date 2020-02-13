@@ -1,0 +1,29 @@
+﻿@model Ngobar.Models.Post.PostIndexModel
+
+<h1>@Model.Judul</h1>
+
+<div>
+    Author: @Model.NamaPembuat (@Model.RatingPembuat)
+    Dibuat: @Model.Dibuat
+</div>
+
+<div>
+    @Model.KontenPost
+</div>
+
+@if (Model.Balasan.Any())
+{
+    foreach (var balas in Model.Balasan)
+    {
+        <div>
+            <div>
+                Author Balasan: @balas.NamaAuthor
+                Dibuat: @balas.Dibuat
+            </div>
+
+            <div>
+                Balasan: @balas.KontenBalasan
+            </div>
+        </div>
+    }
+}
