@@ -1,0 +1,16 @@
+﻿@model Ngobar.Models.Post.NewPostModel
+
+<h1>Post Baru | @Model.NamaForum</h1>
+
+<form asp-action="TambahPost" method="post" id="FormTambahPost">
+    <div class="form-group">
+        <label asp-for="Judul"></label>
+        <input asp-for="Judul" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Konten"></label>
+        <textarea asp-for="Konten" class="form-control"></textarea>
+    </div>
+    <button type="submit" id="submitPostBtn" class="btn btn-submitPost">Submit Post</button>
+    <input asp-for="ForumId" type="hidden" />
+</form>

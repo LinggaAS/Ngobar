@@ -45,6 +45,7 @@ namespace Ngobar.Controllers
                 Id = post.Id,
                 IdPembuat = post.User.Id,
                 RatingPembuat = post.User.Rating,
+                NamaPembuat = post.User.UserName,
                 Judul = post.Judul,
                 DatePosted = post.Dibuat.ToString(),
                 JumlahBalasan = post.balasan.Count(),
