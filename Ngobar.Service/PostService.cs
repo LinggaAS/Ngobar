@@ -36,7 +36,10 @@ namespace Ngobar.Service
 
         public IEnumerable<Post> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Posts
+                .Include(post => post.User)
+                .Include(post => post.balasan).ThenInclude(balas => balas.User)
+                .Include(post => post.Forum);
         }
 
         public Post GetById(int id)
@@ -58,6 +61,11 @@ namespace Ngobar.Service
             return _context.Forums
                 .Where(forum => forum.Id == id).First()
                 .Posts;
+        }
+
+        public IEnumerable<Post> GetPostTerbaru(int n)
+        {
+            return GetAll().OrderByDescending(post => post.Dibuat).Take(n);
         }
     }
 }
