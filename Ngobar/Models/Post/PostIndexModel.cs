@@ -14,6 +14,10 @@ namespace Ngobar.Models.Post
         public int RatingPembuat { get; set; }
         public DateTime Dibuat { get; set; }
         public string KontenPost { get; set; }
+        public bool IsAuthorAdmin { get; set; }
+
+        public int ForumId { get; set; }
+        public string NamaForum { get; set; }
 
         public IEnumerable<BalasanPostModel> Balasan { get; set; }
     }

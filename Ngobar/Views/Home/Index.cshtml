@@ -3,8 +3,8 @@
 <div class="container body-content">
     <div class="row frontPageSplash">
         <div class="col-md-6 frontPageLearn">
-            <div class="frontPageHeading">Belajar, Kolaborasi dan Share Pengetahuan</div>
-            <p class="frontPageSubHeading">Ngobar adalah forum Ngoding & Ngobrol Bareng</p>
+            <div class="frontPageHeading"> Belajar, Kolaborasi, Sharing pengetahuan</div>
+            <p class="frontPageSubHeading"> Ngobar adalah Forum Ngoding and Ngobrol bareng.</p>
             <div>
                 <form asp-controller="Search" asp-action="Search" method="post">
                     <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
@@ -14,27 +14,27 @@
         <div class="col-md-6"></div>
     </div>
     <div class="row frontPageContent">
-        <h3 id="PostTerbaru">Post Terbaru</h3>
-        <table class="table table-hover" id="PostTerbaruTable">
+        <h3 id="latestPosts">Postingan Terbaru</h3>
+        <table class="table table-hover" id="latestPostsTable">
             <tbody>
-                @foreach(var post in Model.PostTerbaru)
+                @foreach (var post in Model.PostTerbaru)
                 {
                     <tr>
                         <td>
                             <div class="forumLogo" style="background-image: url(@post.Forum.ImageUrl);"></div>
-                            <div class="JudulPost">
+                            <div class="postTitle">
                                 <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">
                                     @post.Judul
                                 </a>
                             </div>
-                            <div class="postSubJudul">
-                                @if(post.JumlahBalasan == 0)
-                                {
-                                    <span>tidak ada balasan</span>
-                                }
-                                else if (post.JumlahBalasan >= 1)
+                            <div class="postSubTitle">
+                                @if (post.JumlahBalasan >= 1)
                                 {
                                     <span>@post.JumlahBalasan balasan</span>
+                                }
+                                else
+                                {
+                                    <span>Tidak ada balasan</span>
                                 }
                                 <span class="postUser">
                                     <a asp-controller="Profile" asp-action="Detail" asp-route-id="@post.IdPembuat">

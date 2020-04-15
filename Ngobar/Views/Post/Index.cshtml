@@ -1,29 +1,77 @@
 ﻿@model Ngobar.Models.Post.PostIndexModel
 
-<h1>@Model.Judul</h1>
 
-<div>
-    Author: @Model.NamaPembuat (@Model.RatingPembuat)
-    Dibuat: @Model.Dibuat
-</div>
-
-<div>
-    @Model.KontenPost
-</div>
-
-@if (Model.Balasan.Any())
-{
-    foreach (var balas in Model.Balasan)
-    {
-        <div>
-            <div>
-                Author Balasan: @balas.NamaAuthor
-                Dibuat: @balas.Dibuat
-            </div>
-
-            <div>
-                Balasan: @balas.KontenBalasan
+<div class="container body-content">
+    <div class="row postHeader">
+        <div class="postHeading">
+            <span class="postIndexTitle">
+                @Model.Judul
+            </span>
+            <span id="headingBtn"><a asp-controller="Forum" asp-action="Topic" asp-route-id="@Model.ForumId" class="btn btn-back">Kembali ke @Model.NamaForum </a></span>
+        </div>
+    </div>
+    <div class="row" id="postIndexContent">
+        <div class="col-md-3 postAuthorContainer">
+            <div class="postAuthorImage" style="background-image: url(@Model.ImgUrlPembuat);"></div>
+            <a asp-controller="Profile" asp-action="Detail" asp-route-id="@Model.IdPembuat">
+                @Model.NamaPembuat
+            </a>
+            <span class="postData">@Model.Dibuat</span>
+            @if (Model.IsAuthorAdmin)
+            {
+                <span class="isAdmin smaller">Admin</span>
+            }
+        </div>
+        <div class="col-md-9 postContentContainer">
+            <div class="postContent">
+                @Html.Raw(Model.KontenPost)
             </div>
         </div>
+    </div>
+    <div class="row" id="replyDivider"></div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row">
+            <span>
+                <a asp-controller="Reply" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-newReply">
+                    Komentar Postingan
+                </a>
+            </span>
+        </div>
     }
-}
+
+    @if (Model.Balasan.Any())
+    {
+        foreach (var balas in Model.Balasan)
+        {
+            <div class="row replyContent">
+                <div class="col-md-3 replyAuthorContainer">
+                    <div class="postAuthorImage" style="background-image: url(@balas.AuthorImageUrl)"></div>
+                    <a asp-controller="Profile" asp-action="Detail" asp-route-id="@balas.IdPembuat">
+                        @balas.NamaAuthor
+                    </a>
+                    @if (balas.IsAuthorAdmin)
+                    {
+                        <div class="isAdmin smaller">Admin</div>
+                        <br />
+                    }
+                    <span>@balas.Dibuat</span>
+                </div>
+                <div class="col-md-9 replyContentContainer">
+                    <div class="postContent">
+                        @Html.Raw(balas.KontenBalasan)
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="noPosts">
+            <h3>
+                tidak ada komentar di postingan ini.<br />
+            </h3>
+        </div>
+    }
+</div>

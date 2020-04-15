@@ -1,51 +1,103 @@
 ﻿@model Ngobar.Models.Forum.ForumTopicModel
 
-<h1>Selamat Datang di Forum @Model.Forum.Nama!</h1>
-
-<span id="headingBtn">
-    <a asp-controller="Post"
-       asp-action="Create" 
-       asp-route-id=@Model.Forum.Id class="btn btn-postBaru">
-       Create Post
-    </a>
-</span>
-
-@if (Model.Posts.Any())
-{
-    <table class="table table-bordered table-hover">
-        <tbody>
-            @foreach (var post in Model.Posts)
+<div class="container body-content">
+    <div class="row sectionHeader">
+        <div class="sectionHeading">
+            <span>@Model.Forum.Nama</span>
+            @if (Context.User.Identity.IsAuthenticated)
             {
-            <tr>
-                <td>
-                    <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">
-                        @post.Judul
+                <span id="headingBtn">
+                    <a asp-controller="Post"
+                       asp-action="Create"
+                       asp-route-id="@Model.Forum.Id" class="btn btn-newPost">
+                        Create Post
                     </a>
-                </td>
-                <td>
-                    @post.NamaPembuat
-                </td>
-                <td>
-                    @post.DatePosted
-                </td>
-                <td>
-                    @post.JumlahBalasan
-                </td>
-            </tr>
+                </span>
             }
-        </tbody>
-    </table>
-}
-
-else {
-    <div class="noPosts">
-        <h3>
-            Sepertinya belum ada post di Forum @Model.Forum.Nama. <br />
-            Kenapa tidak
-            <a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Forum.Id">
-                <span>buat</span>
-            </a> 
-            saja ?
-        </h3>
+            <form asp-controller="Forum" asp-action="Search" method="post">
+                <div class="searchForm">
+                    <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)" />
+                    <button type="submit" class="btn buttonSearch">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+                <input asp-for="Forum.Id" name="id" type="hidden" />
+            </form>
+        </div>
+        <div class="sectionDescription">
+            <div class="forumLogo" style="background-image: url(@Model.Forum.ImageUrl)"></div>
+            <p>Selamat datang di Forum @Model.Forum.Nama . Diharapkan tidak out-of-topic.</p>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p>
+                    <span>Kamu harus 
+                        <a asp-controller="Account" asp-action="Register"> 
+                            mendaftar sebagai member
+                        </a> 
+                    untuk membuat postingan baru.</span>
+                </p>
+            }
+        </div>
     </div>
+    <div class="row forumIndexContent">
+        @if (Model.Posts.Any())
+        {
+            <table class="table table-hover table-bordered" id="forumIndexTable">
+                <tbody>
+                    @foreach (var post in Model.Posts)
+                    {
+                        <tr>
+                            <td>
+                                <div class="postData">
+                                    <div class="postTitle">
+                                        <a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Judul</a>
+                                    </div>
+                                    <div class="forumSubTitle">
+                                        <div>
+                                            <span class="postAuthor">
+                                                <a asp-controller="Profile" asp-action="Detail" asp-route-id="@post.IdPembuat">
+                                                    @post.NamaPembuat
+                                                </a>
+                                            </span>
+                                            (@post.RatingPembuat)
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="forumPostCount">
+                                    Komentar: @post.JumlahBalasan
+                                </div>
+                            </td>
+                            <td>
+                                <div class="postDate">@post.DatePosted</div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="noPosts">
+                <i class="material-icons md-72">question_answer</i>
+                <h3>
+                    Tidak ada postingan.
+                    Kenapa tidak
+                    <a asp-controller="Post" asp-action="Create" asp-route-id="@Model.Forum.Id">
+                        <span>posting</span>
+                    </a>
+                    sesuatu?
+                </h3>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        function clearThis(target) {
+            target.value = "";
+        }
+    </script>
 }

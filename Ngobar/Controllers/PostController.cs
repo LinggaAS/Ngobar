@@ -41,7 +41,10 @@ namespace Ngobar.Controllers
                 RatingPembuat = post.User.Rating,
                 Dibuat = post.Dibuat,
                 KontenPost = post.Konten,
-                Balasan = balasan
+                Balasan = balasan,
+                ForumId = post.Forum.Id,
+                NamaForum = post.Forum.Judul,
+                IsAuthorAdmin = IsAuthorAdmin(post.User)
             };
             return View(model);
         }
@@ -76,6 +79,12 @@ namespace Ngobar.Controllers
             return RedirectToAction("Index", "Post", new { id = post.Id });
         }
 
+        private bool IsAuthorAdmin(ApplicationUser user)
+        {
+            return _userManager.GetRolesAsync(user)
+                .Result.Contains("Admin");
+        }
+
         private Post BuildPost(NewPostModel model, ApplicationUser user)
         {
             var forum = _forumService.GetById(model.ForumId);
@@ -99,7 +108,8 @@ namespace Ngobar.Controllers
                 AuthorImageUrl = balas.User.ProfileImageUrl,
                 RatingAuthor = balas.User.Rating,
                 Dibuat = balas.Dibuat,
-                KontenBalasan = balas.Konten
+                KontenBalasan = balas.Konten,
+                IsAuthorAdmin = IsAuthorAdmin(balas.User)
             });
         }
     }

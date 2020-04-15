@@ -11,6 +11,7 @@ namespace Ngobar.Models.Balasan
         public string AuthorImageUrl { get; set; }
         public DateTime Dibuat { get; set; }
         public string KontenBalasan { get; set; }
+        public bool IsAuthorAdmin { get; set; }
 
         public int PostId { get; set; }
     }
