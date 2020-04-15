@@ -8,7 +8,7 @@ namespace Ngobar.Data
     {
         Post GetById(int id);
         IEnumerable<Post> GetAll();
-        IEnumerable<Post> GetFIlteredPosts(string searchQuery);
+        IEnumerable<Post> GetFIlteredPosts(Forum forum, string searchQuery);
         IEnumerable<Post> GetPostsByForum(int id);
         IEnumerable<Post> GetPostTerbaru(int n);
 

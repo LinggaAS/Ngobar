@@ -51,9 +51,13 @@ namespace Ngobar.Service
                 .First();
         }
 
-        public IEnumerable<Post> GetFIlteredPosts(string searchQuery)
+        public IEnumerable<Post> GetFIlteredPosts(Forum forum, string searchQuery)
         {
-            throw new NotImplementedException();
+            return string.IsNullOrEmpty(searchQuery) 
+                ? forum.Posts 
+                : forum.Posts.Where(post 
+                    => post.Judul.Contains(searchQuery) 
+                    || post.Konten.Contains(searchQuery));
         }
 
         public IEnumerable<Post> GetPostsByForum(int id)
