@@ -60,6 +60,13 @@ namespace Ngobar.Service
                     || post.Konten.Contains(searchQuery));
         }
 
+        public IEnumerable<Post> GetFIlteredPosts(string searchQuery)
+        {
+            return GetAll().Where(post 
+                    => post.Judul.Contains(searchQuery)
+                    || post.Konten.Contains(searchQuery));
+        }
+
         public IEnumerable<Post> GetPostsByForum(int id)
         {
             return _context.Forums
