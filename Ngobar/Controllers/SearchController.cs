@@ -4,7 +4,6 @@ using Ngobar.Data.Models;
 using Ngobar.Models.Forum;
 using Ngobar.Models.Post;
 using Ngobar.Models.Search;
-using System;
 using System.Linq;
 
 namespace Ngobar.Controllers
@@ -13,7 +12,7 @@ namespace Ngobar.Controllers
     {
         private readonly IPost _postService;
 
-        protected SearchController(IPost postService)
+        public SearchController(IPost postService)
         {
             _postService = postService;
         }
