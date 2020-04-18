@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Ngobar.Data;
 using Ngobar.Data.Models;
+using Ngobar.Models.ApplicationUser;
 
 namespace Ngobar.Controllers
 {
@@ -22,7 +24,20 @@ namespace Ngobar.Controllers
 
         public IActionResult Detail(string id)
         {
-            return View();
+            var user = _userService.GetById(id);
+            var userRoles = _userManager.GetRolesAsync(user).Result;
+
+            var model = new ProfileModel()
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                UserRating = user.Rating.ToString(),
+                Email = user.Email,
+                ProfileImageUrl = user.ProfileImageUrl,
+                MemberSejak = user.MemberSejak,
+                IsAdmin = userRoles.Contains("Admin")
+            };
+            return View(model);
         }
     }
 }
