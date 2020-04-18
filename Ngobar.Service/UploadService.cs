@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Ngobar.Data;
 
 namespace Ngobar.Service
 {
-    class UploadService
+    public class UploadService : IUpload
     {
     }
 }

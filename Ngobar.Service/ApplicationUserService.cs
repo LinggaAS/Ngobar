@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ngobar.Service
 {
-    class ApplicationUserService : IApplicationUser
+    public class ApplicationUserService : IApplicationUser
     {
         private readonly ApplicationDbContext _context;
 
