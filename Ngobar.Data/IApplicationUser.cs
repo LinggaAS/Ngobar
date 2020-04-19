@@ -11,6 +11,6 @@ namespace Ngobar.Data
         IEnumerable<ApplicationUser> GetAll();
 
         Task SetProfileImage(string id, Uri uri);
-        Task IncrementRating(string id, Type type);
+        Task UpdateUserRating(string id, Type type);
     }
 }

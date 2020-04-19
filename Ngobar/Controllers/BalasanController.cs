@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +12,15 @@ namespace Ngobar.Controllers
     {
         private readonly IPost _postService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IApplicationUser _userService;
 
-        public BalasanController(IPost postService, UserManager<ApplicationUser> userManager)
+        public BalasanController(IPost postService, 
+            UserManager<ApplicationUser> userManager,
+            IApplicationUser userService)
         {
             _postService = postService;
             _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Create(int id)
@@ -57,6 +59,7 @@ namespace Ngobar.Controllers
             var balasan = BuildReply(model, user);
 
             await _postService.TambahBalasan(balasan);
+            await _userService.UpdateUserRating(userId, typeof(PostBalasan));
 
             return RedirectToAction("Index", "Post", new { id = model.PostId});
         }
