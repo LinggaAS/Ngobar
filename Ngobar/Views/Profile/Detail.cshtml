@@ -24,15 +24,15 @@
                 </form>
             }
         </div>
-    </div>
-    <div class="col-md-4">
-        <span id="userName">@Model.UserName</span>
-        @if (@Model.IsAdmin)
-        {
-            <span class="isAdmin">Admin</span>
-        }
-        <span id="userRating">Rating sekarang: @Model.UserRating</span>
-        <span id="userEmailLabel">Email: @Model.Email</span>
-        <span id="userCreatedLabel">Member sejak: @Model.MemberSejak</span>
+        <div class="col-md-8">
+            <span id="userName">@Model.UserName</span>
+            @if (@Model.IsAdmin)
+            {
+                <span class="isAdmin">Admin</span>
+            }
+            <span id="userRating">Rating sekarang: @Model.UserRating</span>
+            <span id="userEmailLabel">Email: @Model.Email</span>
+            <span id="userCreatedLabel">Member sejak: @Model.MemberSejak</span>
+        </div>
     </div>
 </div>

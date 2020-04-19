@@ -36,7 +36,7 @@ namespace Ngobar
             services.AddScoped<IPost, PostService>();
             services.AddScoped<IUpload, UploadService>();
             services.AddScoped<IApplicationUser, ApplicationUserService>();
-
+            services.AddSingleton(Configuration);
             services.AddTransient<DataSeeder>();
 
             services.AddMvc();
@@ -56,7 +56,7 @@ namespace Ngobar
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            dataSeeder.SeedSuperUser();
+            dataSeeder.SeedSuperUser().Wait();
 
             app.UseStaticFiles();
 
