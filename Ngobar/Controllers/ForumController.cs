@@ -118,7 +118,7 @@ namespace Ngobar.Controllers
             var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
 
             // Get Blob Container
-            var container = _uploadService.GetBlobContainer(connectionString);
+            var container = _uploadService.GetBlobContainer(connectionString, "forum-images");
 
             // Parse the content disposition response header
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
@@ -130,7 +130,7 @@ namespace Ngobar.Controllers
             var blockBlob = container.GetBlockBlobReference(filename);
 
             // di block blop, upload file <-- file telah diupload
-            blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            blockBlob.UploadFromStreamAsync(file.OpenReadStream()).Wait();
 
             return blockBlob;
         }
