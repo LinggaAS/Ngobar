@@ -1,0 +1,34 @@
+﻿@model Ngobar.Models.Forum.AddForumModel
+
+<div class="container body-content">
+    <div class="row sectionHeader">
+        <div class="sectionHeading">
+            Create Forum Baru
+        </div>
+    </div>
+    <div class="row">
+        <div class="createForumSection">
+            <form asp-action="AddForum" method="post" id="createForumForm" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Judul">Judul Forum</label>
+                    <input asp-for="Judul" class="form-control" placeholder="Pilih Judul Forum" />
+                    <span asp-validation-for="Judul" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Deskripsi"></label>
+                    <input asp-for="Deskripsi" rows="1" class="form-control" placeholder="Tulis Deskripsi singkat.">
+                    <span asp-validation-for="Deskripsi" class="text-danger"></span>
+                </div>
+                <div id="upload">
+                    <label>Upload Forum Image</label>
+                    <br />
+                    <label class="btn btn-default btn-file">
+                        Browse <input asp-for="ImageUpload" type="file" style="display: none;">
+                    </label>
+                </div>
+                <button type="submit" id="registerBtn" class="btn btn-submitPost">Create</button>
+            </form>
+        </div>
+    </div>
+</div>

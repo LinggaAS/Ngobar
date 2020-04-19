@@ -1,6 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Ngobar.Data;
 using Ngobar.Data.Models;
 using Ngobar.Models.Forum;
@@ -12,11 +18,18 @@ namespace Ngobar.Controllers
     {
         private readonly IForum _forumService;
         private readonly IPost _postService;
+        private readonly IUpload _uploadService;
+        private readonly IConfiguration _configuration;
 
-        public ForumController(IForum forumService, IPost postService)
+        public ForumController(IForum forumService,
+            IPost postService,
+            IUpload uploadService,
+            IConfiguration configuration)
         {
             _forumService = forumService;
             _postService = postService;
+            _uploadService = uploadService;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -68,6 +81,58 @@ namespace Ngobar.Controllers
         public IActionResult Search(int id, string searchQuery)
         {
             return RedirectToAction("Topic", new { id, searchQuery });
+        }
+
+        public IActionResult Create()
+        {
+            var model = new AddForumModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddForum(AddForumModel model)
+        {
+            var imageUri = "/images/users/default.png";
+
+            if (model.ImageUpload != null)
+            {
+                var blockBlob = UploadForumImage(model.ImageUpload);
+                imageUri = blockBlob.Uri.AbsoluteUri;
+            }
+
+            var forum = new Forum
+            {
+                Judul = model.Judul,
+                Deskripsi = model.Deskripsi,
+                Dibuat = DateTime.Now,
+                ImageUrl = imageUri
+            };
+
+            await _forumService.Create(forum);
+            return RedirectToAction("Index", "Forum");
+        }
+
+        private CloudBlockBlob UploadForumImage(IFormFile file)
+        {
+            // konek ke azure storage account container
+            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
+
+            // Get Blob Container
+            var container = _uploadService.GetBlobContainer(connectionString);
+
+            // Parse the content disposition response header
+            var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+
+            // ambil nama file
+            var filename = contentDisposition.FileName.Trim('"');
+
+            // Get a reference to a block Blob
+            var blockBlob = container.GetBlockBlobReference(filename);
+
+            // di block blop, upload file <-- file telah diupload
+            blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+
+            return blockBlob;
         }
 
         private ForumListingModel BuildForumListing(Post post)
