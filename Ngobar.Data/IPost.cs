@@ -16,5 +16,7 @@ namespace Ngobar.Data
         Task Add(Post post);
         Task Delete(int id);
         Task EditPostKonten(int id, string newKonten);
+
+        Task TambahBalasan(PostBalasan balasan);
     }
 }

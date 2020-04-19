@@ -24,6 +24,12 @@ namespace Ngobar.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task TambahBalasan(PostBalasan balasan)
+        {
+            _context.Balasan.Add(balasan);
+            await _context.SaveChangesAsync();
+        }
+
         public Task Delete(int id)
         {
             throw new NotImplementedException();
