@@ -1,5 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Ngobar.Models.ApplicationUser.ProfileListModel
+
+<div class="container body-content">
+    <div class="row sectionHeader">
+        <div class="sectionHeading">Browse Users</div>
+    </div>
+    <div class="row" id="forumIndexContent">
+        <table class="table table-hover" id="forumIndexTable">
+            <thead>
+                <tr>
+                    <th>
+                        Profile Pict
+                    </th>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Member sejak
+                    </th>
+                    <th>
+                        User Rating
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var profile in Model.Profiles)
+                {
+                    <tr class="userRow">
+                        <td>
+                            <div class="userProfilePic" style="background-image: url(@profile.ProfileImageUrl); background-size:100%"></div>
+                        </td>
+                        <td>
+                            <a asp-controller="Profile" asp-action="Detail" , asp-route-id="@profile.UserId">
+                                @profile.UserName
+                            </a>
+                        </td>
+                        <td>
+                            @profile.Email
+                        </td>
+                        <td>
+                            @profile.MemberSejak
+                        </td>
+                        <td>
+                            @profile.UserRating
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,21 +1,46 @@
 ﻿@model Ngobar.Models.Forum.ForumIndexModel
 
-<h1>Forums</h1>
+<div class="container body-content">
+    <div class="row sectionHeader">
+        <div class="sectionHeading">Lihat Forum</div>
+        <div class="sectionDescription">
+            <p>Selamat datang di <strong>Ngobar</strong> Forum.</p>
+            <p>
+                Diharapkan para user membuat postingan yang sesuai dengan forum yang tersedia.
+            </p>
+        </div>
+    </div>
+    <div class="row" id="forumIndexContent">
+        <table class="table table-hover" id="forumIndexTable">
+            <tbody>
+                @foreach (var forum in Model.ForumList)
+                {
+                    <tr>
+                        <td width="150px">
+                            <div class="forumLogo" style="background-image: url(@forum.ImageUrl);"></div>
+                            <div class="forumData">
+                                <div class="forumTitle">
+                                    <a asp-controller="Forum" asp-action="Topic" asp-route-id="@forum.Id">@forum.Nama</a>
+                                </div>
+                                <div class="forumSubTitle">
+                                    @if (forum.postBaru)
+                                    {
+                                        <div class="hasRecentPost">Hot</div>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                        <td width="70px">
+                            <div class="forumPostCount"> @forum.nomorPost Posts </div>
+                            <div class="forumMemberCount"> @forum.nomorUser Users </div>
+                        </td>
+                        <td>
+                            <div class="forumDescription"> @forum.Deskripsi </div>
+                        </td>
+                    </tr>
+                }
 
-<table class="table table-hover" id="forumIndexTable">
-    <tbody>
-        @foreach (var forum in Model.ForumList)
-        {
-        <tr>
-            <td>
-                <a asp-controller="Forum" asp-action="Topic" asp-route-id="@forum.Id">
-                    @forum.Nama
-                </a>
-            </td>
-            <td>
-                @forum.Deskripsi
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>

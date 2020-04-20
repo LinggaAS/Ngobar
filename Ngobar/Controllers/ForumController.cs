@@ -38,12 +38,16 @@ namespace Ngobar.Controllers
                 .Select(forum => new ForumListingModel {
                     Id = forum.Id,
                     Nama = forum.Judul,
-                    Deskripsi = forum.Deskripsi
+                    Deskripsi = forum.Deskripsi,
+                    nomorPost = forum.Posts?.Count() ?? 0,
+                    nomorUser = _forumService.GetActiveUsers(forum.Id).Count(),
+                    ImageUrl = forum.ImageUrl,
+                    postBaru = _forumService.postBaru(forum.Id)
             });
 
             var model = new ForumIndexModel
             {
-                ForumList = forums
+                ForumList = forums.OrderBy(f => f.Nama)
             };
 
             return View(model);

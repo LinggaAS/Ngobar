@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Ngobar.Data;
 using Ngobar.Data.Models;
 using Ngobar.Models.ApplicationUser;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -75,6 +76,27 @@ namespace Ngobar.Controllers
 
             // redirect ke page user profile
             return RedirectToAction("Detail", "Profile", new { id = userId });
+        }
+
+        public IActionResult Index()
+        {
+            var profiles = _userService.GetAll()
+                .OrderByDescending(user => user.Rating)
+                .Select(u => new ProfileModel
+                {
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    ProfileImageUrl = u.ProfileImageUrl,
+                    UserRating = u.Rating.ToString(),
+                    MemberSejak = u.MemberSejak
+                });
+
+            var model = new ProfileListModel
+            {
+                Profiles = profiles
+            };
+
+            return View(model);
         }
     }
 }

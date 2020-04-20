@@ -9,11 +9,12 @@ namespace Ngobar.Data
     {
         Forum GetById(int id);
         IEnumerable<Forum> GetAll();
-        IEnumerable<ApplicationUser> GetAllActiveUsers();
 
         Task Create(Forum forum);
         Task Delete(int forumId);
         Task UpdateForumJudul(int forumId, string newJudul);
         Task UpdateDeskripsi(int forumId, string newDeskripsi);
+        IEnumerable<ApplicationUser> GetActiveUsers(int id);
+        bool postBaru(int id);
     }
 }
