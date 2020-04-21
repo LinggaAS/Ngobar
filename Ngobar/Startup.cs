@@ -56,7 +56,7 @@ namespace Ngobar
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            dataSeeder.SeedSuperUser().Wait();
+            dataSeeder.SeedSuperUser();
 
             app.UseStaticFiles();
 
